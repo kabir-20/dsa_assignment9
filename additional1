@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
+using namespace std;
 
 int adj[1000][1000];
 int visited[1000];
@@ -14,7 +15,7 @@ void dfs(int node) {
 }
 
 int main() {
-    scanf("%d %d", &V, &E);
+    cin >> V >> E;
 
     for (int i = 0; i < V; i++)
         for (int j = 0; j < V; j++)
@@ -22,7 +23,7 @@ int main() {
 
     for (int i = 0; i < E; i++) {
         int u, v;
-        scanf("%d %d", &u, &v);
+        cin >> u >> v;
         adj[u][v] = 1;
         adj[v][u] = 1;
     }
@@ -35,3 +36,8 @@ int main() {
             components++;
         }
     }
+
+    cout << components;
+    return 0;
+}
+
