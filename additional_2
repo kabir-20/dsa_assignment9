@@ -1,0 +1,46 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int grid[100][100], dista[100][100], used[100][100];
+int dr[4] = {1,-1,0,0};
+int dc[4] = {0,0,1,-1};
+
+int main() {
+    int m, n;
+    cin >> m >> n;
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            cin >> grid[i][j];
+
+    for (int i = 0; i < m; i++)
+        for (int j = 0; j < n; j++)
+            dista[i][j] = INT_MAX;
+
+    dista[0][0] = grid[0][0];
+
+    while (true) {
+        int r = -1, c = -1, best = INT_MAX;
+
+        for (int i = 0; i < m; i++)
+            for (int j = 0; j < n; j++)
+                if (!used[i][j] && dista[i][j] < best) {
+                    best = dista[i][j];
+                    r = i;
+                    c = j;
+                }
+
+        if (r == -1) break;
+        used[r][c] = 1;
+
+        for (int k = 0; k < 4; k++) {
+            int nr = r + dr[k], nc = c + dc[k];
+            if (nr >= 0 && nr < m && nc >= 0 && nc < n) {
+                if (dista[r][c] + grid[nr][nc] < dista[nr][nc])
+                    dista[nr][nc] = dista[r][c] + grid[nr][nc];
+            }
+        }
+    }
+
+    cout << dista[m-1][n-1];
+}
