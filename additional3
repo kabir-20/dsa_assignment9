@@ -1,0 +1,50 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+int adj[1001][1001];
+int dista[1001];
+int used[1001];
+
+int main() {
+    int N, E, K;
+    cin >> N >> E >> K;
+
+    for (int i = 1; i <= N; i++)
+        for (int j = 1; j <= N; j++)
+            adj[i][j] = INT_MAX;
+
+    for (int i = 0; i < E; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        adj[u][v] = w;
+    }
+
+    for (int i = 1; i <= N; i++)
+        dista[i] = INT_MAX;
+
+    dista[K] = 0;
+
+    while (true) {
+        int node = -1, best = INT_MAX;
+        for (int i = 1; i <= N; i++)
+            if (!used[i] && dista[i] < best) {
+                best = dista[i];
+                node = i;
+            }
+
+        if (node == -1) break;
+        used[node] = 1;
+
+        for (int v = 1; v <= N; v++)
+            if (adj[node][v] != INT_MAX)
+                if (dista[node] + adj[node][v] < dista[v])
+                    dista[v] = dista[node] + adj[node][v];
+    }
+
+    int ans = 0;
+    for (int i = 1; i <= N; i++)
+        ans = max(ans, dista[i]);
+
+    if (ans == INT_MAX) cout << -1;
+    else cout << ans;
+}
